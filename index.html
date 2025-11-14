@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Brew & Bliss — Coffee Shop (Premium Demo)</title>
+  <meta name="description" content="Brew & Bliss — interactive demo coffee website with Home, About, Menu, Gallery, Contact, Login, animations." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#071226; --panel:#0b1622; --card:#0f2430; --accent:#d97706; --muted:#9aa4b2; --glass: rgba(255,255,255,0.04);
+      --radius:14px; --max-width:1200px; --text:#e6eef6;
+    }
+    [data-theme="light"]{ --bg:#f7fafc; --panel:#ffffff; --card:#ffffff; --accent:#d97706; --muted:#4b5563; --glass: rgba(0,0,0,0.03); --text:#0b1220 }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;background:linear-gradient(180deg,var(--bg) 0%, #0b1724 60%);color:var(--text);padding:24px;transition:background .28s,color .28s}
+    .wrap{max-width:var(--max-width);margin:0 auto}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter:blur(6px)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#d97706,#f59e0b);display:grid;place-items:center;font-weight:800;color:#071226}
+    nav{display:flex;gap:10px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px}
+    nav a.active, nav a:hover{color:var(--text);background:rgba(255,255,255,0.02)}
+    .header-controls{display:flex;gap:10px;align-items:center}
+    .btn,button{cursor:pointer}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:start;margin-top:18px}
+    .hero-card{padding:20px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 30px rgba(2,6,23,0.4)}
+    .eyebrow{font-weight:700;color:var(--muted);display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02)}
+
+    /* Carousel */
+    .carousel{position:relative;border-radius:12px;overflow:hidden}
+    .carousel img{width:100%;height:340px;object-fit:cover;display:block;opacity:0;transform:scale(1.03);transition:opacity .8s ease,transform .8s}
+    .carousel img.active{opacity:1;transform:none}
+    .carousel .caption{position:absolute;left:18px;bottom:18px;background:linear-gradient(90deg, rgba(0,0,0,0.45), rgba(0,0,0,0.12));padding:12px;border-radius:10px}
+
+    /* Dream thoughts */
+    .dream-area{position:relative;margin-top:14px}
+    .thoughts{position:absolute;inset:0;pointer-events:none}
+    .thought{position:absolute;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.06);color:var(--text);font-weight:700;opacity:0;transform:translateY(18px) scale(.98);transition:all .6s cubic-bezier(.2,.9,.3,1)}
+    .thought.show{opacity:1;transform:translateY(0) scale(1)}
+
+    /* Pour scene */
+    .scene{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));text-align:center}
+    .cup-stage{max-width:360px;margin:10px auto}
+    svg{display:block}
+    #steamWrap{height:0;transition:height .6s}
+
+    /* Sections */
+    section.content{margin-top:18px}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .cards .card{padding:14px}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .gallery img{width:100%;height:150px;object-fit:cover;border-radius:10px}
+
+    /* Menu */
+    .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .menu-item{display:flex;gap:12px;align-items:center;padding:12px;border-radius:10px;background:var(--glass)}
+    .menu-item img{width:72px;height:72px;border-radius:10px;object-fit:cover}
+
+    /* Contact/About */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    form input, form textarea, form select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+
+    /* Footer */
+    footer{margin-top:22px;text-align:center;color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width:980px){.hero{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}.gallery{grid-template-columns:repeat(2,1fr)}.menu-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
+    @media (max-width:560px){.cards{grid-template-columns:1fr}.gallery{grid-template-columns:1fr}.menu-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">B&amp;B</div>
+        <div>
+          <div style="font-weight:800">Brew & Bliss</div>
+          <div style="font-size:12px;color:var(--muted)">Coffee • Community • Calm</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#/" data-link class="active">Home</a>
+        <a href="#/about" data-link>About</a>
+        <a href="#/menu" data-link>Menu</a>
+        <a href="#/gallery" data-link>Gallery</a>
+        <a href="#/contact" data-link>Contact</a>
+      </nav>
+
+      <div class="header-controls">
+        <button id="themeBtn" title="Toggle theme">🌗</button>
+        <button id="loginBtn">Login</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- HOME -->
+      <article id="home" data-page>
+        <div class="hero">
+          <div class="hero-card">
+            <span class="eyebrow">Seasonal • Limited</span>
+            <h1 style="margin-top:10px">Find moments in every cup</h1>
+            <p style="color:var(--muted)">We serve small-batch coffee, warm hospitality, and soft spaces to breathe. Experience our interactive 'dream pour' — press the button to see coffee flow into the cup.</p>
+
+            <div class="carousel" id="carousel">
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1600&auto=format&fit=crop&s=2f5de5481a9ec1f1a8b6a3b8cc7a6b98" class="active" alt="coffee-1">
+              <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=1600&auto=format&fit=crop&s=abcdabcdabcdabcdabcd" alt="coffee-2">
+              <img src="https://images.unsplash.com/photo-1505577058444-a3dab1f5b2d0?q=80&w=1600&auto=format&fit=crop&s=zzzzzzzzzzzzzzzzzzzz" alt="coffee-3">
+              <div class="caption"><strong>Spiced Pumpkin Latte</strong><div style="font-size:13px;color:var(--muted)">Try it before it's gone</div></div>
+            </div>
+
+            <div class="dream-area">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+                <div style="font-weight:700">Interactive Dream</div>
+                <div><button class="btn" id="experienceBtn">Experience Dream</button></div>
+              </div>
+
+              <div class="thoughts" id="thoughts">
+                <div class="thought" style="left:6%;top:6%">Warm sunlight</div>
+                <div class="thought" style="left:58%;top:16%">Caramel whispers</div>
+                <div class="thought" style="left:28%;top:48%">Soft piano</div>
+                <div class="thought" style="left:76%;top:60%">Steam rising</div>
+              </div>
+            </div>
+
+            <div class="cards" style="margin-top:14px">
+              <div class="card"><strong>Single-origin</strong><p class="muted">Carefully sourced beans from trusted farms.</p></div>
+              <div class="card"><strong>Seasonal blends</strong><p class="muted">New flavours rotating every few weeks.</p></div>
+              <div class="card"><strong>Events & workshops</strong><p class="muted">Learn pour-over, latte art, and cupping.</p></div>
+            </div>
+          </div>
+
+          <aside>
+            <div class="scene">
+              <div style="font-weight:800">Pour & Sip</div>
+              <div style="color:var(--muted);font-size:13px;margin-bottom:10px">Tap 'Pour' to animate the coffee filling the cup.</div>
+
+              <div class="cup-stage">
+                <svg viewBox="0 0 220 180" width="100%" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#6b2e0a" /><stop offset="100%" stop-color="#2b0f05" /></linearGradient>
+                  </defs>
+                  <g transform="translate(10,10)">
+                    <path d="M20 30 h160 a20 20 0 0 1 20 20 v50 a40 40 0 0 1 -40 40 h-120 a40 40 0 0 1 -40 -40 v-50 a20 20 0 0 1 20 -20 z" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+                    <clipPath id="c1"><path d="M20 30 h160 a20 20 0 0 1 20 20 v50 a40 40 0 0 1 -40 40 h-120 a40 40 0 0 1 -40 -40 v-50 a20 20 0 0 1 20 -20 z" /></clipPath>
+                    <g clip-path="url(#c1)">
+                      <rect id="fillRect" x="0" y="140" width="220" height="0" fill="url(#g1)" />
+                      <!-- small particles to simulate crema -->
+                      <g id="crema" opacity="0">
+                        <circle cx="110" cy="80" r="2" fill="#e3b07a" />
+                        <circle cx="98" cy="92" r="1.6" fill="#e3b07a" />
+                        <circle cx="120" cy="95" r="1.8" fill="#f0c89a" />
+                      </g>
+                    </g>
+                    <path id="stream" d="M110 -20 C110 20, 80 40, 95 70" stroke="#a65b2a" stroke-width="8" stroke-linecap="round" fill="none" opacity="0" />
+                    <path d="M20 30 h160 a20 20 0 0 1 20 20 v50 a40 40 0 0 1 -40 40 h-120 a40 40 0 0 1 -40 -40 v-50 a20 20 0 0 1 20 -20 z" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+                  </g>
+                </svg>
+
+                <div id="steamWrap" style="position:relative;height:0">
+                  <div style="position:absolute;left:45%;top:0;opacity:.9"><span style="display:block;width:6px;height:20px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.04));animation:steam 3s infinite"></span></div>
+                </div>
+
+                <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+                  <button id="btnPour" class="btn">Pour</button>
+                  <button id="btnReset" style="background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px;color:var(--muted)">Reset</button>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Gallery, Menu, About, Contact sections are below as separate pages -->
+      </article>
+
+      <!-- MENU PAGE -->
+      <article id="menu" data-page style="display:none">
+        <div class="card">
+          <h2>Menu</h2>
+          <div class="menu-grid">
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800&auto=format&fit=crop&s=img1" alt=""><div><strong>Espresso Royale</strong><div class="muted">Rich & velvety</div></div><div style="margin-left:auto;font-weight:800;color:var(--accent)">₹150</div></div>
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800&auto=format&fit=crop&s=img2" alt=""><div><strong>Vanilla Latte</strong><div class="muted">Creamy & fragrant</div></div><div style="margin-left:auto;font-weight:800;color:var(--accent)">₹180</div></div>
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1505577058444-a3dab1f5b2d0?q=80&w=800&auto=format&fit=crop&s=img3" alt=""><div><strong>Iced Cold Brew</strong><div class="muted">Smooth & bold</div></div><div style="margin-left:auto;font-weight:800;color:var(--accent)">₹170</div></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- GALLERY PAGE -->
+      <article id="gallery" data-page style="display:none">
+        <div class="card">
+          <h2>Gallery</h2>
+          <div class="gallery" style="margin-top:12px">
+            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1200&auto=format&fit=crop&s=img1">
+            <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=1200&auto=format&fit=crop&s=img2">
+            <img src="https://images.unsplash.com/photo-1505577058444-a3dab1f5b2d0?q=80&w=1200&auto=format&fit=crop&s=img3">
+            <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1200&auto=format&fit=crop&s=img4">
+            <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1200&auto=format&fit=crop&s=img5">
+            <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop&s=img6">
+          </div>
+        </div>
+      </article>
+
+      <!-- ABOUT PAGE -->
+      <article id="about" data-page style="display:none">
+        <div class="card">
+          <h2>About Brew & Bliss</h2>
+          <p class="muted">Brew & Bliss started as a small experiment in flavour and hospitality. Today we focus on sustainably-sourced beans, careful roasting, and building community through events and workshops.</p>
+
+          <div class="two-col" style="margin-top:12px">
+            <div>
+              <h3>Our Mission</h3>
+              <p class="muted">To create welcoming spaces where people connect over thoughtfully-prepared coffee.</p>
+              <h3>Values</h3>
+              <ul style="color:var(--muted);line-height:1.6">
+                <li>Sustainability</li>
+                <li>Quality</li>
+                <li>Community</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Team</h3>
+              <div style="display:flex;gap:8px;align-items:center">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop&s=imgp1" style="width:72px;height:72px;border-radius:999px;object-fit:cover">
+                <div>
+                  <strong>Sana Kapoor</strong>
+                  <div class="muted" style="font-size:13px">Head Barista</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CONTACT PAGE -->
+      <article id="contact" data-page style="display:none">
+        <div class="card">
+          <h2>Contact Us</h2>
+          <div class="two-col" style="margin-top:12px">
+            <div>
+              <h3>Visit</h3>
+              <p class="muted">Brew & Bliss Coffee House<br>Near Central Mall, Kharghar, Navi Mumbai</p>
+
+              <h3>Hours</h3>
+              <p class="muted">Mon-Fri 8:00–22:00<br>Sat-Sun 9:00–23:00</p>
+
+              <h3>Call</h3>
+              <p class="muted">+91 98765 43210</p>
+            </div>
+            <div>
+              <h3>Send a message</h3>
+              <form id="contactForm">
+                <input id="c_name" placeholder="Full name" required style="margin-bottom:8px">
+                <input id="c_email" type="email" placeholder="Email" required style="margin-bottom:8px">
+                <textarea id="c_msg" rows="4" placeholder="Message" required style="margin-bottom:8px"></textarea>
+                <button class="btn" type="submit">Send</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- LOGIN/ONBOARD (modal) -->
+      <div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.6);align-items:center;justify-content:center;z-index:90">
+        <div style="background:var(--panel);padding:18px;border-radius:12px;max-width:420px;width:94%">
+          <h3>Sign in</h3>
+          <form id="loginForm" style="display:grid;gap:8px;margin-top:8px">
+            <input id="loginEmail" type="email" placeholder="Email" required>
+            <input id="loginPwd" type="password" placeholder="Password" required minlength="6">
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <button type="button" id="closeAuth" style="background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px;color:var(--muted)">Cancel</button>
+              <button class="btn" type="submit">Sign in</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- FIRST-TIME DREAM ONBOARD -->
+      <div id="firstDream" style="display:none;position:fixed;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.8), rgba(2,6,23,0.6));align-items:center;justify-content:center;z-index:95">
+        <div style="background:var(--panel);padding:18px;border-radius:12px;max-width:640px;width:94%;text-align:center">
+          <h3>Welcome — Start your Brew Dream</h3>
+          <p class="muted">This short animation shows a coffee being poured and floating thoughts. You can replay it anytime from the Home page.</p>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+            <button id="startDream" class="btn">Start Dream</button>
+            <button id="skipDream2" style="background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px;color:var(--muted)">Skip</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer>© <span id="year"></span> Brew & Bliss — Demo. Designed for learning & showcase.</footer>
+  </div>
+
+  <script>
+    // Basic router
+    const pages = Array.from(document.querySelectorAll('[data-page]'));
+    function showPage(hash){
+      const path = (hash || location.hash || '#/').replace('#','') || '/';
+      pages.forEach(p=>p.style.display='none');
+      document.querySelectorAll('[data-link]').forEach(a=>a.classList.remove('active'));
+      if(path==='/'||path===''){
+        document.getElementById('home').style.display='block'; document.querySelector('[href="#/"]')?.classList.add('active');
+      } else if(path.startsWith('/about')){ document.getElementById('about').style.display='block'; document.querySelector('[href="#/about"]').classList.add('active') }
+      else if(path.startsWith('/menu')){ document.getElementById('menu').style.display='block'; document.querySelector('[href="#/menu"]').classList.add('active') }
+      else if(path.startsWith('/gallery')){ document.getElementById('gallery').style.display='block'; document.querySelector('[href="#/gallery"]').classList.add('active') }
+      else if(path.startsWith('/contact')){ document.getElementById('contact').style.display='block'; document.querySelector('[href="#/contact"]').classList.add('active') }
+      else { document.getElementById('home').style.display='block'; document.querySelector('[href="#/"]')?.classList.add('active'); }
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    window.addEventListener('hashchange', ()=> showPage(location.hash));
+    showPage(location.hash);
+
+    // carousel
+    (function(){
+      const imgs = Array.from(document.querySelectorAll('#carousel img'));
+      let idx=0; function show(i){ imgs.forEach((im,k)=>im.classList.toggle('active',k===i)); }
+      show(0); setInterval(()=>{ idx=(idx+1)%imgs.length; show(idx); },3500);
+    })();
+
+    // thoughts cycle
+    (function(){
+      const thoughts = Array.from(document.querySelectorAll('.thought'));
+      let t=0; function cycle(){ thoughts.forEach((th,i)=>th.classList.toggle('show', i===t)); t=(t+1)%thoughts.length; }
+      cycle(); setInterval(cycle,3000);
+    })();
+
+    // pour animation
+    const fillRect = document.getElementById('fillRect');
+    const stream = document.getElementById('stream');
+    const crema = document.getElementById('crema');
+    const steamWrap = document.getElementById('steamWrap');
+    const btnPour = document.getElementById('btnPour');
+    const btnReset = document.getElementById('btnReset');
+
+    function pour(){
+      if(!fillRect) return;
+      stream.style.opacity = 1;
+      // reset
+      fillRect.setAttribute('y',140); fillRect.setAttribute('height',0);
+      crema.style.opacity = 0; steamWrap.style.height = '0';
+      // animate fill
+      setTimeout(()=>{ fillRect.setAttribute('y',28); fillRect.setAttribute('height',112); },80);
+      // show crema and steam
+      setTimeout(()=>{ crema.style.opacity = 1; steamWrap.style.height = '60px'; },1200);
+      // hide stream
+      setTimeout(()=>{ stream.style.opacity = 0; },1400);
+    }
+    btnPour?.addEventListener('click', pour);
+    btnReset?.addEventListener('click', ()=>{ if(fillRect){ fillRect.setAttribute('y',140); fillRect.setAttribute('height',0); crema.style.opacity = 0; steamWrap.style.height = '0'; } });
+
+    // experience dream button triggers pour + thoughts
+    document.getElementById('experienceBtn')?.addEventListener('click', ()=>{ pour(); const thoughts = document.querySelectorAll('.thought'); thoughts.forEach((t,i)=> setTimeout(()=> t.classList.add('show'), i*400)); setTimeout(()=> thoughts.forEach(t=>t.classList.remove('show')), 3200); });
+
+    // theme
+    const themeBtn = document.getElementById('themeBtn'); const root = document.body;
+    function applyTheme(theme){ root.setAttribute('data-theme',theme); localStorage.setItem('bb_theme',theme); themeBtn.textContent = theme==='light' ? '🌞' : '🌙'; }
+    const savedTheme = localStorage.getItem('bb_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark'); applyTheme(savedTheme);
+    themeBtn.addEventListener('click', ()=> applyTheme(root.getAttribute('data-theme')==='light' ? 'dark' : 'light'));
+
+    // auth modal handling + first-time dream
+    const authModal = document.getElementById('authModal'); const loginBtn = document.getElementById('loginBtn'); const closeAuth = document.getElementById('closeAuth'); const loginForm = document.getElementById('loginForm');
+    loginBtn?.addEventListener('click', ()=> authModal.style.display = 'flex');
+    closeAuth?.addEventListener('click', ()=> authModal.style.display = 'none');
+    loginForm?.addEventListener('submit', (e)=>{
+      e.preventDefault(); const em = document.getElementById('loginEmail').value; const pw = document.getElementById('loginPwd').value;
+      if(!/\S+@\S+\.\S+/.test(em)){ alert('Enter valid email'); return; }
+      if(pw.length<6){ alert('Password too short'); return; }
+      sessionStorage.setItem('bb_user', em);
+      authModal.style.display = 'none';
+      // first-time dream
+      if(!localStorage.getItem('bb_seen_dream')){ document.getElementById('firstDream').style.display = 'flex'; } else { alert('Signed in — demo'); location.hash = '#/'; }
+    });
+
+    document.getElementById('startDream')?.addEventListener('click', ()=>{ document.getElementById('firstDream').style.display='none'; localStorage.setItem('bb_seen_dream','1'); pour(); const thoughts = document.querySelectorAll('.thought'); thoughts.forEach((t,i)=> setTimeout(()=> t.classList.add('show'), i*400)); setTimeout(()=> thoughts.forEach(t=>t.classList.remove('show')), 3800); setTimeout(()=> location.hash = '#/', 1500); });
+    document.getElementById('skipDream2')?.addEventListener('click', ()=>{ document.getElementById('firstDream').style.display='none'; localStorage.setItem('bb_seen_dream','1'); location.hash = '#/'; });
+
+    // contact form demo
+    document.getElementById('contactForm')?.addEventListener('submit', (e)=>{ e.preventDefault(); alert('Thanks! We received your message (demo)'); e.target.reset(); });
+
+    // init year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
