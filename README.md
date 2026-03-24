@@ -3,9 +3,14 @@
 <h3 align="center">Aspiring Data Scientist | ML & Python Developer</h3>
 
 <p align="center">
-  <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=600&size=22&duration=3000&pause=800&center=true&vCenter=true&width=600&lines=Building+AI+Projects;Machine+Learning+Enthusiast;Data+Science+Learner;Always+Learning+🚀" alt="Typing SVG" />
-  </a>
+  <img src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=600&size=22&duration=3000&pause=800&center=true&vCenter=true&width=600&lines=Building+AI+Projects;Machine+Learning+Enthusiast;Data+Science+Learner;Always+Learning+🚀" />
+</p>
+
+---
+
+<!-- ===================== ANIMATED BANNER ===================== -->
+<p align="center">
+  <img src="https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif" width="400"/>
 </p>
 
 ---
@@ -74,36 +79,9 @@
 
 ---
 
-<!-- ===================== STREAK ===================== -->
-## 🔥 GitHub Streak
-
+<!-- ===================== EXTRA ANIMATION ===================== -->
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=fabs7869&theme=tokyonight"/>
-</p>
-
----
-
-<!-- ===================== TROPHIES ===================== -->
-## 🏆 Achievements
-
-<p align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=fabs7869&theme=tokyonight&row=1&column=6"/>
-</p>
-
----
-
-<!-- ===================== SNAKE ===================== -->
-## 🐍 Contribution Snake
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" 
-      srcset="https://raw.githubusercontent.com/fabs7869/fabs7869/output/github-contribution-grid-snake-dark.svg" />
-    <source media="(prefers-color-scheme: light)" 
-      srcset="https://raw.githubusercontent.com/fabs7869/fabs7869/output/github-contribution-grid-snake.svg" />
-    <img alt="github contribution snake" 
-      src="https://raw.githubusercontent.com/fabs7869/fabs7869/output/github-contribution-grid-snake.svg" />
-  </picture>
+  <img src="https://media.giphy.com/media/f3iwJFOVOwuy7K6FFw/giphy.gif" width="300"/>
 </p>
 
 ---
